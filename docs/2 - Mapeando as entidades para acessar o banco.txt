@@ -1,0 +1,28 @@
+Context
+	1° Criar classe para definir o context (Incluir dentro da pasta context).
+	2° Instalar pacotes do aspnet framework entity core
+		Comando: Install-Package Microsoft.EntityFrameworkCore
+
+	3° Na classe context, criar um construtor recebendo DbContextOptions, e passando para a classe base
+	4° Usar o DBSet para configurar as entidades.
+
+Mapear as Entidades
+	1° Dentro da pasta Mapping, criar classes de mapeamento das entidade;
+	2° Herdar o IEntityTypeConfiguration<Nome da Entidade>
+	3° Usar o builder da classe configure para definir o mapeamento dos campos e tabela
+	4° Usar no context o override OnModelCreating
+
+Desabilitar o Cascade Delete
+>> foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+Configurando o DBContext na Solução
+	1° Adicionar na solucao a dependencia Data para configurar no startup os dados do context (no ASPNet Core é feita essa ligação direta)
+	2° na classe startup, adicionar uma nova configuração de DbContext apontando pra solução Data
+
+Criando Migrations
+	Add-Migration name -Verbose -Context context name
+	Update-Database -Context context name
+
+Para gerar Script Sql das entidades criadas
+	Script-Migration -Context ContextName
+	

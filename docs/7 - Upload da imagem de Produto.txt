@@ -1,0 +1,8 @@
+1° criar um padrão para a imagem na controller:
+	Criar um prefixo para a imagem: guid + "_"
+	Criar metodo de upload e pasta para armazenar as imagens
+	obter caminho onde a imagem será armazenada usando o: Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image" , prefix + formFile.FileName );
+	Usar o file stream para que a copia da imagem seja criada:
+			 using(var stream = new FileStream(path, FileMode.Create)){await formFile.CopyToAsync(stream); }
+	Criar na coluna de armazenamento do nome da imagem, passar na criação o prefixo + o nome do arquivo;
+	Adicionar a imagem no index

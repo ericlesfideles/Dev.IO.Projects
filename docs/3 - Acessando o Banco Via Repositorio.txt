@@ -1,0 +1,47 @@
+-- Uso do repository
+
+1° criar dentro da pasta interface (camada de negocio) a clase com a interface IRepository
+	 public interface IRepository<TEntity>: IDisposable where TEntity: Entity
+2° Criar metodos assicronos para garantir a melhor performance da solução
+	Criar interfaces para:
+      			  Task Create(TEntity entity);
+     			  Task<TEntity> GetById(Guid id);
+      			  Task<List<TEntity>> ListAll();
+        		  Task Edit(TEntity entity);
+        		  Task Delete(Guid id);
+        		  Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate);
+          		  Task<int> SaveChanges();
+
+3° Para cada entidade criada deverá ser criada uma interface de repository herdando o IRepository passando a entidade
+	 EX: public interface IAndressRepository: IRepository<AndressEntity>
+
+4° Criar dentro da camada de dados as classes com os repositorios
+	 public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
+
+5° Obter na classe repository o acesso ao contexto
+	protected readonly MyDbContext _MyDbContext;
+        protected readonly DbSet<TEntity> DbSet;
+	
+No construtor realizar a injecao de dependencia
+	public Repository(MyDbContext myDbContext)
+        {
+            _MyDbContext = myDbContext;
+            DbSet = _MyDbContext.Set<TEntity>();        
+        }
+
+Conceitos:
+	AsNotTracking: Melhorar a perfomace, pois retornar a pesquisa sem o tracking
+	Await: garante o recebimento do resultado em uma aplicacao assicrona
+	DbSet: Facilita na hora de definir as açoes do banco
+	Virtual: Usado quando o metodo em questao pode ser feito o override 
+
+6° Criar as classes de repositorios para as entidades herdando o Repository
+	EX: public class AndressRepository : Repository<AndressEntity>, IAndressRepository
+
+7° Configurar o startup no configureservices	
+	Injetando dependencias para que o sistema possa enxergar as configuras dos repositorios
+	
+		services.AddScoped<MyDbContext>();
+            	services.AddScoped<IProductRepository,ProductRepository>();
+            	services.AddScoped<ISupplierRepository, SupplierRepository>();
+            	services.AddScoped<IAndressRepository, AndressRepository>();

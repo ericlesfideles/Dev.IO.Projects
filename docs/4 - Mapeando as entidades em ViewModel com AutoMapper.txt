@@ -1,0 +1,16 @@
+Mapeamento das View Model ou DTO (Data Transfer Object).
+
+1° Criação da classe de modelo para as entidades (Dentro do App, na pasta de Models (que foi alterado o nome para ViewModel))
+
+2° Dentro da Classe Modelo das entidades, pegar os mesmos atributos da entidade e passar na classe modelo.
+
+3° Usar o Data annotation para realizar os tratamentos de dados.
+	Para o campo de upload de arquivo, foi necessario criar um novo atribui do tipo IFormFile 
+
+4° Uso do AutoMapper
+	Instalar o automapper: Install-Package automapper.extensions.microsoft.dependencyinjection
+	Configurar o Automapper no Startup: Services.AddAutoMapper(typeof(Startup))
+	Criar uma pasta para o AutoMapper para facilitar a manipulação/visualização das informações
+	criar uma classe para configuração do mapeamento, onde será herdado o tipo profile (automapper, o sistema irá procurar na solução a classe que possui esse profile para pegar as configurações de mapeamento) 
+	No construtor da classe criada, será realizado o mapeamento da seguinte forma:
+		EX: CreateMap<SupplierEntity, SupplierViewModel>().ReverseMap();

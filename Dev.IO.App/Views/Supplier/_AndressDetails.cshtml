@@ -1,0 +1,71 @@
+﻿@model Dev.IO.App.ViewModels.SupplierViewModel
+
+<div style="padding-top: 20px">
+    <div>
+        <hr />
+        <h4>Endereço</h4>
+    </div>
+
+    @if (Model != null)
+    {
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.Street)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.Number)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.Complement)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.Neighborhood)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.PostCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.City)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Andress.State)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.Complement)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.Neighborhood)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.PostCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Andress.State)
+                </td>
+                <td>
+                    <a supress-by-action="Edit,GetAndress" asp-action="EditAndress" asp-route-id="@Model.Id" class="btn btn-info" data-modal="">
+                        <span title="Editar" class="fa fa-pencil-alt"></span>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    }
+
+</div>
+

@@ -1,0 +1,4 @@
+1 ° Criar partial view para o endereço no cadastro do fornecedor
+2° Adicionar Client Side Library e usar o font-awesome Library para usar para inserir icones nos botoes de acoes
+
+continua 28.03 min

@@ -1,0 +1,6 @@
+Criar um projeto Blank.
+Usar o Global.json para controlar a versão do projeto.
+Criar pastas dentro do projeto de controle como exemplo: src, tests, docs
+Criar um projeto MVC com AspNetCore
+Criar dois projetos do tipo class libery (para controlar os dados e o negócio do projeto)
+

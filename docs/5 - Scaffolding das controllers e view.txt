@@ -1,0 +1,4 @@
+1° Criar a controller com o model view criada
+2° Usar o Imapper para converter os dados do repositorios para a view model
+3° Recomendável o uso de uma base controller onde as controles herdarao dele, facilitara na validacao das controllers.
+
