@@ -1,0 +1,30 @@
+﻿@model Dev.IO.App.ViewModels.SupplierViewModel
+
+@{ 
+    ViewData["Title"] = "Atualizar Emdereço";
+}
+
+
+<div class="modal-header">
+    <h4 class="modal-title">@ViewData["Title"]</h4>
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">x</span><span class="sr-only">Fechar</span>
+    </button>
+</div>
+
+<form asp-action="UpdateAndress">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Andress.SupplierId" />
+        <input type="hidden" asp-for="Andress.Id" />
+        
+        <partial name="_Andress" />
+
+        <div class="modal-footer">
+            <div class="col-md-2 col-md-10">
+                <input type="submit" value="Atualizar Endereço" class="btn btn-success" />
+                <input type="button" value="Fechar" class="btn btn-info"  data-dismiss="modal"/>
+            </div>
+        </div>
+
+    </div>
+</form>

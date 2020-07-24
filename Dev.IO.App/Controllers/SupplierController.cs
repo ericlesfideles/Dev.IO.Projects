@@ -12,11 +12,16 @@ namespace Dev.IO.App.Controllers
     public class SupplierController : BaseController
     {
         private readonly ISupplierRepository _context;
+        private readonly IAndressRepository _AndressRepository;
         private readonly IMapper _mapper;
-        public SupplierController(ISupplierRepository context, IMapper mapper)
+        public SupplierController(
+                                    ISupplierRepository context,
+                                    IMapper mapper,
+                                    IAndressRepository andressRepository)
         {
             _context = context;
             _mapper = mapper;
+            _AndressRepository = andressRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -103,6 +108,44 @@ namespace Dev.IO.App.Controllers
             await _context.Delete(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GetAndress(Guid id)
+        {
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndress(id));
+            if (supplierViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(viewName: "_AndressDetails", supplierViewModel);
+        }
+
+        public async Task<IActionResult> UpdateAndress(Guid id)
+        {
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndress(id));
+            if (supplierViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(viewName:"_AndressUpdate", new SupplierViewModel { Andress = supplierViewModel.Andress });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAndress(SupplierViewModel supplier)
+        {
+            ModelState.Remove("Name");
+            ModelState.Remove("Document");
+
+            if (!ModelState.IsValid) return PartialView("_AndressUpdate", supplier);
+
+            await _AndressRepository.Edit(_mapper.Map<AndressEntity>(supplier.Andress));
+
+            var url = Url.Action("GetAndress", "Supplier", new { id = supplier.Andress.SupplierId });
+
+            return Json(new { success = true, url });
         }
 
     }
