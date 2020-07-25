@@ -24,11 +24,13 @@ namespace Dev.IO.App.Controllers
             _AndressRepository = andressRepository;
         }
 
+        [Route("SupplierList")]
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<SupplierViewModel>>( await _context.ListAll()));
+            return View(_mapper.Map<IEnumerable<SupplierViewModel>>(await _context.ListAll()));
         }
 
+        [Route("SupplierDetails/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndress(id));
