@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DevIO.Bussiness.Services
 {
-    public interface ISupplierService
+    public interface ISupplierService: IDisposable
     {
         Task Create(SupplierEntity entity);
 

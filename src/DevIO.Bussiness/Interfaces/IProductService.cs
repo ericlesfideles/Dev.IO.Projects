@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DevIO.Bussiness.Services
 {
-    public interface IProductService
+    public interface IProductService: IDisposable
     {
         Task Create(ProductEntity entity);
 

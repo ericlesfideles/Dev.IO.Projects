@@ -1,4 +1,6 @@
 ﻿using AppMvcBasic.Models;
+using DevIO.Bussiness.Interfaces;
+using DevIO.Bussiness.Notifications;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -10,6 +12,7 @@ namespace DevIO.Bussiness.Services
 {
     public abstract class BaseService
     {
+        private readonly INotify _notify;
 
         protected void Notify(ValidationResult validationResult)
         {
@@ -21,6 +24,7 @@ namespace DevIO.Bussiness.Services
 
         protected void Notify(string message)
         {
+            _notify.Handle(new Notification(message));
 
         }
 
