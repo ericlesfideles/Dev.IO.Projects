@@ -14,6 +14,10 @@ namespace DevIO.Bussiness.Services
     {
         private readonly INotify _notify;
 
+        public BaseService(INotify notify)
+        {
+            _notify = notify;
+        }
         protected void Notify(ValidationResult validationResult)
         {
             foreach (var item in validationResult.Errors)

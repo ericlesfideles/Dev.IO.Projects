@@ -1,6 +1,7 @@
 ﻿using AppMvcBasic.Models;
 using DevIO.Bussiness.Interfaces;
 using DevIO.Bussiness.Models.Validations;
+using DevIO.Bussiness.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace DevIO.Bussiness.Services
     {
         private readonly IProductRepository _productRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, INotify notify): base(notify)
         {
             _productRepository = productRepository;
 

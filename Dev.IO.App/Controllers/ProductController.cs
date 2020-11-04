@@ -6,6 +6,8 @@ using Dev.IO.App.ViewModels;
 using DevIO.Bussiness.Interfaces;
 using AutoMapper;
 using AppMvcBasic.Models;
+using DevIO.Bussiness.Services;
+using DevIO.Bussiness.Notifications;
 
 namespace Dev.IO.App.Controllers
 {
@@ -13,14 +15,15 @@ namespace Dev.IO.App.Controllers
     {
         private readonly IProductRepository _context;
         private readonly ISupplierRepository _contextSupplier;
+        private readonly IProductService _productService;
 
         private readonly IMapper _mapper;
-        public ProductController(IProductRepository context, ISupplierRepository contextSupplier, IMapper mapper)
+        public ProductController(IProductRepository context, ISupplierRepository contextSupplier, IMapper mapper, IProductService productService, INotify notify): base(notify)
         {
             _context = context;
             _contextSupplier = contextSupplier;
             _mapper = mapper;
-
+            _productService = productService;
         }
 
         public async Task<IActionResult> Index()
@@ -62,9 +65,11 @@ namespace Dev.IO.App.Controllers
             productViewModel.Image = imgPrefix + productViewModel.ImageUpload.FileName;
 
             var product = _mapper.Map<ProductEntity>(productViewModel);
-            await _context.Create(product);
+            await _productService.Create(product);
 
-           return RedirectToAction(nameof(Index));
+            if(!ValidOperation()) return View(productViewModel);
+
+            return RedirectToAction(nameof(Index));
             
         }
 
@@ -107,7 +112,10 @@ namespace Dev.IO.App.Controllers
             productUpdate.Value = productViewModel.Value;
             productUpdate.IsActive = productViewModel.IsActive;
             productUpdate.Supplier = null;
-            await _context.Edit(_mapper.Map<ProductEntity>(productUpdate));
+            await _productService.Edit(_mapper.Map<ProductEntity>(productUpdate));
+
+
+            if (!ValidOperation()) return View(productViewModel);
 
             return RedirectToAction(nameof(Index));
            
@@ -129,7 +137,12 @@ namespace Dev.IO.App.Controllers
             var productViewModel = await GetProduct(id);
             if (productViewModel == null) NotFound();
 
-            await _context.Delete(id);
+            await _productService.Delete(id);
+            
+            if (!ValidOperation()) return View(productViewModel);
+
+            TempData["Sucess"] = "Produto Excluído com sucesso!";
+
             return RedirectToAction(nameof(Index));
         }
 

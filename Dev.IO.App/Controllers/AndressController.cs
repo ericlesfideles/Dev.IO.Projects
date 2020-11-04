@@ -21,7 +21,8 @@ namespace Dev.IO.App.Controllers
 
         public AndressController(IAndressRepository context
                                 , ISupplierRepository contextSupplier
-                                , IMapper mapper)
+                                , IMapper mapper
+                                , INotify notify):base(notify)
         {
             _context = context;
             _contextSupplier = contextSupplier;

@@ -16,7 +16,8 @@ namespace DevIO.Bussiness.Services
         private readonly IAndressRepository _andressRepository;
 
         public SupplierService(ISupplierRepository supplierRepository,
-                                   IAndressRepository andressRepository)
+                                   IAndressRepository andressRepository,
+                                   INotify notify): base(notify)
         {
             _supplierRepository = supplierRepository;
             _andressRepository = andressRepository;
@@ -26,7 +27,7 @@ namespace DevIO.Bussiness.Services
         public async Task Create(SupplierEntity entity)
         {
             if (!ExecuteValidation(new SupplierValidation(), entity)
-                && !ExecuteValidation(new AndressValidation(), entity.Andress)) return;
+                    || !ExecuteValidation(new AndressValidation(), entity.Andress)) return;
 
             if(_supplierRepository.Filter(e => e.Document == entity.Document).Result.Any())
             {
@@ -52,6 +53,7 @@ namespace DevIO.Bussiness.Services
         public async Task UpdateAndress(AndressEntity andress)
         {
             if (!ExecuteValidation(new AndressValidation(), andress)) return;
+            await _andressRepository.Edit(andress);
         }
 
         public async Task Delete(Guid Id)

@@ -6,22 +6,26 @@ using Dev.IO.App.ViewModels;
 using DevIO.Bussiness.Interfaces;
 using AutoMapper;
 using AppMvcBasic.Models;
+using DevIO.Bussiness.Services;
 
 namespace Dev.IO.App.Controllers
 {
     public class SupplierController : BaseController
     {
         private readonly ISupplierRepository _context;
-        private readonly IAndressRepository _AndressRepository;
+        //private readonly IAndressRepository _AndressRepository;
+        private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
         public SupplierController(
                                     ISupplierRepository context,
                                     IMapper mapper,
-                                    IAndressRepository andressRepository)
+                                    //IAndressRepository andressRepository
+                                    ISupplierService supplierService,
+                                    INotify notify): base(notify)
         {
             _context = context;
             _mapper = mapper;
-            _AndressRepository = andressRepository;
+            _supplierService = supplierService;
         }
 
         [Route("SupplierList")]
@@ -56,8 +60,10 @@ namespace Dev.IO.App.Controllers
 
             var supplier = _mapper.Map < SupplierEntity > (supplierViewModel);
 
-            await _context.Create(supplier);
-            
+            await _supplierService.Create(supplier);
+
+            if(!ValidOperation()) return View(supplierViewModel);
+
             return RedirectToAction(nameof(Index));
             
             
@@ -83,7 +89,9 @@ namespace Dev.IO.App.Controllers
 
 
             var supplier = _mapper.Map<SupplierEntity>(supplierViewModel);
-            await _context.Edit(supplier);
+            await _supplierService.Edit(supplier);
+
+            if (!ValidOperation()) return View(supplierViewModel);
 
             return RedirectToAction(nameof(Index));
         
@@ -107,7 +115,9 @@ namespace Dev.IO.App.Controllers
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndress(id));
             if (supplierViewModel == null) return NotFound();
 
-            await _context.Delete(id);
+            await _supplierService.Delete(id);
+
+            if (!ValidOperation()) return View(supplierViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -143,7 +153,7 @@ namespace Dev.IO.App.Controllers
 
             if (!ModelState.IsValid) return PartialView("_AndressUpdate", supplier);
 
-            await _AndressRepository.Edit(_mapper.Map<AndressEntity>(supplier.Andress));
+            await _supplierService.UpdateAndress(_mapper.Map<AndressEntity>(supplier.Andress));
 
             var url = Url.Action("GetAndress", "Supplier", new { id = supplier.Andress.SupplierId });
 

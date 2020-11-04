@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DevIO.Bussiness.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
@@ -7,7 +8,16 @@ namespace Dev.IO.App.Controllers
 {
     public abstract class BaseController: Controller
     {
-
+        private readonly INotify _notify;
+       
+        public BaseController(INotify notify)
+        {
+            _notify = notify;
+        }
+        protected bool ValidOperation()
+        {
+            return !_notify.HasNotification();
+        }
 
         public async Task<bool> UploadImage(IFormFile formFile, string prefix) 
         {
