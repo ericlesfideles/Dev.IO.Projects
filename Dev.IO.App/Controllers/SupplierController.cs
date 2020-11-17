@@ -7,9 +7,12 @@ using DevIO.Bussiness.Interfaces;
 using AutoMapper;
 using AppMvcBasic.Models;
 using DevIO.Bussiness.Services;
+using Microsoft.AspNetCore.Authorization;
+using Dev.IO.App.Extensions;
 
 namespace Dev.IO.App.Controllers
 {
+    [Authorize]
     public class SupplierController : BaseController
     {
         private readonly ISupplierRepository _context;
@@ -27,13 +30,13 @@ namespace Dev.IO.App.Controllers
             _mapper = mapper;
             _supplierService = supplierService;
         }
-
+        [AllowAnonymous]
         [Route("SupplierList")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<SupplierViewModel>>(await _context.ListAll()));
         }
-
+        [AllowAnonymous]
         [Route("SupplierDetails/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -47,11 +50,13 @@ namespace Dev.IO.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("supplier", "Create")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("supplier", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SupplierViewModel supplierViewModel)
@@ -69,6 +74,7 @@ namespace Dev.IO.App.Controllers
             
         }
 
+        [ClaimsAuthorize("supplier", "Edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndressAndProduct(id));
@@ -79,6 +85,7 @@ namespace Dev.IO.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("supplier", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, SupplierViewModel supplierViewModel)
@@ -97,6 +104,7 @@ namespace Dev.IO.App.Controllers
         
         }
 
+        [ClaimsAuthorize("supplier", "Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var supplierViewModel  = _mapper.Map<SupplierViewModel>(await _context.GetSupllierAndAndress(id));
@@ -108,6 +116,7 @@ namespace Dev.IO.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("supplier", "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
