@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AppMvcBasic.Models;
+using Dev.IO.App.Extensions;
 
 namespace Dev.IO.App.Controllers
 {
@@ -28,10 +29,14 @@ namespace Dev.IO.App.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Erros(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            CustomErroDetail erroDetail = new CustomErroDetail();
+            var e = erroDetail.GetErroDetailByid(id);
+            
+            return View("Error", e);
         }
+
     }
 }
