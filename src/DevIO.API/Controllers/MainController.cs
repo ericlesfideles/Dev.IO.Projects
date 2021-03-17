@@ -47,7 +47,7 @@ namespace DevIO.API.Controllers
             return CustomResponse();
         }
 
-        private void NotifyErroModelState(ModelStateDictionary modelState)
+        protected void NotifyErroModelState(ModelStateDictionary modelState)
         {
             var erros = modelState.Values.SelectMany(e => e.Errors);
             foreach (var item in erros)
@@ -58,7 +58,7 @@ namespace DevIO.API.Controllers
             }
         }
 
-        private void NotifyErro(string erroMessage)
+        protected void NotifyErro(string erroMessage)
         {
             _notify.Handle(new Notification(erroMessage));
         }

@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Context\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
