@@ -100,7 +100,7 @@ namespace DevIO.API.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            var product = _mapper.Map<ProductEntity>(await _repository.GetById(id));
+            var product = _mapper.Map<Product>(await _repository.GetById(id));
 
             if (product == null) return NotFound();
 
