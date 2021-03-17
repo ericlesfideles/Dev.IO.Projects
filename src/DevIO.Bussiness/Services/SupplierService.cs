@@ -64,6 +64,13 @@ namespace DevIO.Bussiness.Services
                 return;
             }
 
+            var andress = await _andressRepository.GetAndressbySupplierId(Id);
+
+            if(andress != null)
+            {
+                await _andressRepository.Delete(andress.Id);
+            }
+
             await _supplierRepository.Delete(Id);
         }
 
