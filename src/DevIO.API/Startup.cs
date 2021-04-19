@@ -27,9 +27,15 @@ namespace DevIO.API
                     { 
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                     });
+
+            services.AddIdentityConfiguration(Configuration);
+
             services.WebApiConfig();
+            
             services.AddAutoMapper(typeof(Startup));
+            
             services.AddControllers();
+            
             services.ResolveDependencies();
         }
 

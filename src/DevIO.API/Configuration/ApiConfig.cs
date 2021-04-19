@@ -23,6 +23,8 @@ namespace DevIO.API.Configuration
         }
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
+            app.UseAuthentication();
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

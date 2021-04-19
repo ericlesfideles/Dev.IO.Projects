@@ -6,10 +6,12 @@ using AutoMapper;
 using DevIO.API.ViewModel;
 using DevIO.Bussiness.Interfaces;
 using DevIO.Bussiness.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class SuppliersController : MainController
@@ -29,7 +31,7 @@ namespace DevIO.API.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [Route("ListAll")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Supplier>>> ListAll()

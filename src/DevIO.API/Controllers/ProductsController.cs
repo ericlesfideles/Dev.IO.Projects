@@ -3,6 +3,7 @@ using AutoMapper;
 using DevIO.API.ViewModel;
 using DevIO.Bussiness.Interfaces;
 using DevIO.Bussiness.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DevIO.API.Controllers
 {
-    
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController: MainController
@@ -31,6 +32,7 @@ namespace DevIO.API.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet("ListAllProducts")]
         public async Task<IEnumerable<Product>> ListAllProducts()
         {
