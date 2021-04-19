@@ -89,7 +89,22 @@ namespace DevIO.API.Controllers
         {
             if (id != product.Id) BadRequest();
 
+            var productEdit = _mapper.Map<Product>(await _repository.GetById(id));
+            product.Image = productEdit.Image;
             if (!ModelState.IsValid) CustomResponse(ModelState);
+
+            if(product.ImageUpload != null)
+            {
+                var imgName = Guid.NewGuid() + "_" + product.Image;
+
+                if (!UploadFile(product.ImageUpload, imgName)) return CustomResponse();
+
+                product.Image = imgName;
+            }
+            productEdit.Name = product.Name;
+            productEdit.Description = product.Description;
+            productEdit.Value = product.Value;
+            productEdit.IsActive = product.IsActive;
 
             await _service.Edit(_mapper.Map<ProductEntity>(product));
 

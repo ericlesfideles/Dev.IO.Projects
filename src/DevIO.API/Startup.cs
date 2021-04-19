@@ -27,7 +27,7 @@ namespace DevIO.API
                     { 
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                     });
-
+            services.WebApiConfig();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             services.ResolveDependencies();
@@ -41,16 +41,13 @@ namespace DevIO.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseMvcConfiguration();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
